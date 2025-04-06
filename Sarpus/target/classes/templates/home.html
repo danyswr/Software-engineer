@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Voice Platform - Sarpus</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <div class="container">
+        <div class="home-content">
+            <div class="platform-badge">Student Voice Platform</div>
+            
+            <div class="hero-section">
+                <h1>Your Voice Shapes Our <span class="highlight">Campus</span></h1>
+                
+                <p class="hero-description">
+                    Join our student feedback community to share complaints, 
+                    suggestions, and ideas. Connect with fellow students and see real 
+                    changes happen on campus.
+                </p>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon chat-icon"></div>
+                        <div class="feature-content">
+                            <h3>Share Your Voice</h3>
+                            <p>Post complaints, suggestions, and grievances in a supportive community</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon connect-icon"></div>
+                        <div class="feature-content">
+                            <h3>Connect with Peers</h3>
+                            <p>Engage with other students facing similar challenges</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon track-icon"></div>
+                        <div class="feature-content">
+                            <h3>Track Progress</h3>
+                            <p>See real-time updates as your feedback is addressed</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon safe-icon"></div>
+                        <div class="feature-content">
+                            <h3>Safe Environment</h3>
+                            <p>Share openly in a moderated, respectful platform</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="auth-card">
+            <div class="auth-tabs">
+                <a href="/login" class="auth-tab active">Login</a>
+                <a href="/register" class="auth-tab">Register</a>
+            </div>
+            
+            <form th:action="@{/login}" method="post" class="auth-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="username" placeholder="your.email@university.edu" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="••••••" required>
+                    <a href="#" class="forgot-password">Forgot password?</a>
+                </div>
+                
+                <div class="form-check">
+                    <input type="checkbox" id="remember-me" name="remember-me">
+                    <label for="remember-me">Remember me</label>
+                </div>
+                
+                <button type="submit" class="btn-login">Log in</button>
+                
+                <p class="signup-prompt">Don't have an account? <a href="/register">Sign up</a></p>
+            </form>
+        </div>
+    </div>
+    
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>
+

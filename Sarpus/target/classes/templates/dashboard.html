@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sarpus</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>Sarpus</h2>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li class="active"><a href="/dashboard"><span class="icon dashboard-icon"></span> Dashboard</a></li>
+                <li><a href="#"><span class="icon feedback-icon"></span> My Feedback</a></li>
+                <li><a href="#"><span class="icon community-icon"></span> Community</a></li>
+                <li><a href="#"><span class="icon settings-icon"></span> Settings</a></li>
+                <li class="logout"><a th:href="@{/logout}"><span class="icon logout-icon"></span> Logout</a></li>
+            </ul>
+        </nav>
+        
+        <main class="main-content">
+            <header class="dashboard-header">
+                <h1>Welcome, <span th:text="${user.fullName}">Student</span>!</h1>
+                <div class="user-profile">
+                    <span class="user-initial" th:text="${#strings.substring(user.fullName,0,1)}">S</span>
+                </div>
+            </header>
+            
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <h3>My Feedback</h3>
+                    <p class="stat-number" th:text="${feedback.size()}">0</p>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>In Progress</h3>
+                    <p class="stat-number" th:text="${feedback.?[status == 'IN_PROGRESS'].size()}">0</p>
+                </div>
+                
+                <div class="stat-card">
+                    <h3>Resolved</h3>
+                    <p class="stat-number" th:text="${feedback.?[status == 'RESOLVED'].size()}">0</p>
+                </div>
+            </div>
+            
+            <div class="content-section">
+                <div class="section-header">
+                    <h2>Submit New Feedback</h2>
+                </div>
+                
+                <form th:action="@{/feedback/create}" method="post" th:object="${newFeedback}" class="feedback-form">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" id="title" th:field="*{title}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select id="category" th:field="*{category}" required>
+                            <option value="">Select a category</option>
+                            <option value="FACILITIES">Facilities</option>
+                            <option value="ACADEMICS">Academics</option>
+                            <option value="SERVICES">Services</option>
+                            <option value="SAFETY">Safety</option>
+                            <option value="OTHER">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="content">Description</label>
+                        <textarea id="content" th:field="*{content}" rows="5" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">Submit Feedback</button>
+                </form>
+            </div>
+            
+            <div class="content-section">
+                <div class="section-header">
+                    <h2>My Recent Feedback</h2>
+                </div>
+                
+                <div class="feedback-list">
+                    <div th:if="${feedback.empty}" class="empty-state">
+                        <p>You haven't submitted any feedback yet.</p>
+                    </div>
+                    
+                    <div th:each="item : ${feedback}" class="feedback-card">
+                        <div class="feedback-header">
+                            <h3 th:text="${item.title}">Feedback Title</h3>
+                            <span class="feedback-status" th:text="${item.status}" th:classappend="${item.status.toLowerCase()}">Status</span>
+                        </div>
+                        
+                        <div class="feedback-meta">
+                            <span class="feedback-category" th:text="${item.category}">Category</span>
+                            <span class="feedback-date" th:text="${#temporals.format(item.createdAt, 'dd MMM yyyy')}">Date</span>
+                        </div>
+                        
+                        <p class="feedback-content" th:text="${item.content}">Feedback content goes here...</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>
+

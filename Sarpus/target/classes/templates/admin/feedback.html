@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Management - Sarpus Admin</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+    <div class="admin-container">
+        <nav class="sidebar admin-sidebar">
+            <div class="sidebar-header">
+                <h2>Sarpus Admin</h2>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li><a href="/admin/dashboard"><span class="icon dashboard-icon"></span> Dashboard</a></li>
+                <li><a href="/admin/users"><span class="icon users-icon"></span> Users</a></li>
+                <li class="active"><a href="/admin/feedback"><span class="icon feedback-icon"></span> Feedback</a></li>
+                <li class="logout"><a th:href="@{/logout}"><span class="icon logout-icon"></span> Logout</a></li>
+            </ul>
+        </nav>
+        
+        <main class="main-content">
+            <header class="dashboard-header">
+                <h1>Feedback Management</h1>
+                <div class="user-profile admin-profile">
+                    <span class="user-initial">A</span>
+                </div>
+            </header>
+            
+            <div class="content-section">
+                <div class="section-header">
+                    <h2>All Feedback</h2>
+                </div>
+                
+                <div class="feedback-filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="PENDING">Pending</button>
+                    <button class="filter-btn" data-filter="IN_PROGRESS">In Progress</button>
+                    <button class="filter-btn" data-filter="RESOLVED">Resolved</button>
+                </div>
+                
+                <div class="feedback-list">
+                    <div th:if="${feedback.empty}" class="empty-state">
+                        <p>No feedback available.</p>
+                    </div>
+                    
+                    <div th:each="item : ${feedback}" class="feedback-card" th:data-status="${item.status}">
+                        <div class="feedback-header">
+                            <h3 th:text="${item.title}">Feedback Title</h3>
+                            <span class="feedback-status" th:text="${item.status}" th:classappend="${item.status.toLowerCase()}">Status</span>
+                        </div>
+                        
+                        <div class="feedback-meta">
+                            <span class="feedback-category" th:text="${item.category}">Category</span>
+                            <span class="feedback-date" th:text="${#temporals.format(item.createdAt, 'dd MMM yyyy')}">Date</span>
+                            <span class="feedback-user" th:text="${item.user.fullName}">User</span>
+                        </div>
+                        
+                        <p class="feedback-content" th:text="${item.content}">Feedback content goes here...</p>
+                        
+                        <div class="feedback-actions">
+                            <form th:action="@{/admin/feedback/{id}/status(id=${item.id})}" method="post">
+                                <select name="status" class="status-select">
+                                    <option value="PENDING" th:selected="${item.status == 'PENDING'}">Pending</option>
+                                    <option value="IN_PROGRESS" th:selected="${item.status == 'IN_PROGRESS'}">In Progress</option>
+                                    <option value="RESOLVED" th:selected="${item.status == 'RESOLVED'}">Resolved</option>
+                                </select>
+                                <button type="submit" class="btn-update">Update</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script th:src="@{/js/script.js}"></script>
+    <script th:src="@{/js/admin.js}"></script>
+</body>
+</html>
+

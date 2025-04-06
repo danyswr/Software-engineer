@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management - Sarpus Admin</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+    <div class="admin-container">
+        <nav class="sidebar admin-sidebar">
+            <div class="sidebar-header">
+                <h2>Sarpus Admin</h2>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li><a href="/admin/dashboard"><span class="icon dashboard-icon"></span> Dashboard</a></li>
+                <li class="active"><a href="/admin/users"><span class="icon users-icon"></span> Users</a></li>
+                <li><a href="/admin/feedback"><span class="icon feedback-icon"></span> Feedback</a></li>
+                <li class="logout"><a th:href="@{/logout}"><span class="icon logout-icon"></span> Logout</a></li>
+            </ul>
+        </nav>
+        
+        <main class="main-content">
+            <header class="dashboard-header">
+                <h1>User Management</h1>
+                <div class="user-profile admin-profile">
+                    <span class="user-initial">A</span>
+                </div>
+            </header>
+            
+            <div class="content-section">
+                <div class="section-header">
+                    <h2>All Users</h2>
+                </div>
+                
+                <div class="users-list">
+                    <div th:if="${users.empty}" class="empty-state">
+                        <p>No users available.</p>
+                    </div>
+                    
+                    <table class="users-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="user : ${users}">
+                                <td th:text="${user.id}">1</td>
+                                <td th:text="${user.fullName}">John Doe</td>
+                                <td th:text="${user.email}">john@example.com</td>
+                                <td th:text="${user.role}">ROLE_USER</td>
+                                <td class="actions">
+                                    <a href="#" class="btn-view">View</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>
+
